@@ -27,9 +27,12 @@ def predict():
     elif list(request.form.values())[0] == "robotics engineer":
         model = pickle.load(open('model_rob.pkl', 'rb'))
     else:
-        return render_template('index.html', prediction_text='Enter a valid profession: data scientist, economist, developer, junior developer, senior developer, robotics engineer')
+        return render_template('index.html', prediction_text='Enter a valid profession: data scientist, economist, developer, junior developer, senior developer, or robotics engineer!')
     int_features = list(request.form.values())[1:]
-    final_features = [np.array(int_features)]
+    try:
+        final_features = [np.array(int_features)]
+    except Exception:
+        return render_template('index.html', prediction_text='Enter valid grades from 0 to 100!')
     prediction = model.predict(final_features)
 
     output = prediction
